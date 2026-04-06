@@ -8,7 +8,7 @@ from app.crud.user import UserCRUD
 from app.models.user import User
 from app.schemas.auth import TokenData
 
-_pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+_pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 _settings = get_settings()
 
 

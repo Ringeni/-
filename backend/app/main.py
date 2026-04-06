@@ -7,7 +7,9 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.api.router import api_router
+from app.api.ws import router as ws_router
 from app.core.config import get_settings
+from app.core.database import close_engine
 from app.core.errors import AppException, ErrorCode
 from app.core.logging_config import configure_logging
 from app.core.redis_client import close_redis_client
@@ -30,6 +32,7 @@ async def lifespan(_app: FastAPI):
     logging.getLogger(__name__).info("application startup")
     yield
     await close_redis_client()
+    await close_engine()
     logging.getLogger(__name__).info("application shutdown")
 
 
@@ -37,6 +40,7 @@ settings = get_settings()
 app = FastAPI(title=settings.app_name, lifespan=lifespan)
 app.add_middleware(RequestContextMiddleware)
 app.include_router(api_router, prefix="/api/v1")
+app.include_router(ws_router)
 
 
 @app.exception_handler(AppException)

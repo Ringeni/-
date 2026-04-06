@@ -20,3 +20,7 @@ async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
 
 def get_engine() -> AsyncEngine:
     return _engine
+
+
+async def close_engine() -> None:
+    await _engine.dispose()
