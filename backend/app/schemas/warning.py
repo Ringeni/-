@@ -12,6 +12,11 @@ class WarningOut(BaseModel):
     content: str
     status: int
     handler_id: int | None = Field(default=None, alias="handlerId")
+    handler_name: str | None = Field(default=None, alias="handlerName")
+    handled_at: datetime | None = Field(default=None, alias="handledAt")
+    closed_at: datetime | None = Field(default=None, alias="closedAt")
+    closed_by: int | None = Field(default=None, alias="closedBy")
+    closed_by_name: str | None = Field(default=None, alias="closedByName")
 
     model_config = {"from_attributes": True, "populate_by_name": True}
 

@@ -86,3 +86,23 @@ async def mock_analyze(
     )
     await MonitorSessionService.touch_session(redis_client, sessionId)
     return success_response(data=summary)
+
+
+@router.post("/sessions/{session_id}/heartbeat")
+async def session_heartbeat(
+    session_id: str,
+    _current_user: User = Depends(get_current_user),
+) -> dict:
+    """Session heartbeat: refresh session TTL and get remaining time"""
+    redis_client = get_redis_client()
+    session = await MonitorSessionService.touch_session(redis_client, session_id)
+    if not session:
+        raise AppException(code=ErrorCode.NOT_FOUND, message="session not found or expired", http_status=404)
+    return success_response(
+        data={
+            "sessionId": session["sessionId"],
+            "lastActiveTime": session["lastActiveTime"],
+            "expireAt": session["expireAt"],
+            "remainingSeconds": session.get("remainingSeconds", 0),
+        }
+    )

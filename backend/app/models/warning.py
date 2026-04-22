@@ -21,3 +21,8 @@ class Warning(Base):
     content: Mapped[str] = mapped_column(Text, nullable=False)
     status: Mapped[int] = mapped_column(Integer, nullable=False, default=0, server_default="0")
     handler_id: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    handler_name: Mapped[str | None] = mapped_column(Text, nullable=True)
+    handled_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    closed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    closed_by: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    closed_by_name: Mapped[str | None] = mapped_column(Text, nullable=True)

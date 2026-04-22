@@ -2,6 +2,7 @@ from fastapi import APIRouter
 
 from app.api.auth import router as auth_router
 from app.api.cameras import router as cameras_router
+from app.api.events import router as events_router
 from app.api.health import router as health_router
 from app.api.monitor import router as monitor_router
 from app.api.targets import router as targets_router
@@ -15,6 +16,7 @@ api_router.include_router(health_router)
 api_router.include_router(auth_router)
 api_router.include_router(tracks_router)
 api_router.include_router(warnings_router)
+api_router.include_router(events_router)
 api_router.include_router(monitor_router)
 api_router.include_router(cameras_router)
 api_router.include_router(users_router)
